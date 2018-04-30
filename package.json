@@ -1,0 +1,26 @@
+{
+  "name": "token",
+  "version": "1.0.0",
+  "description": "Test token",
+  "main": "truffle-config.js",
+  "repository": {},
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "ganache": "ganache-cli -m \"candy maple cake sugar pudding cream honey rich smooth crumble sweet treat\"",
+    "truffle": "truffle",
+    "compile": "truffle compile",
+    "migrate": "truffle migrate --reset",
+    "test": "truffle test"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "zeppelin-solidity": "1.9.0"
+  },
+  "devDependencies": {
+    "ganache-cli": "6.1.0",
+    "truffle": "4.1.7"
+  }
+}
