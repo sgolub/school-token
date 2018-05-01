@@ -11,20 +11,34 @@ contract("AltorosToken", accounts => {
       MultiSigWallet.deployed()
     ]);
 
+    const buyer = accounts[0];
+    const owner1 = accounts[1];
+    const owner2 = accounts[2];
+
     await Crowsale.buyTokens(Wallet.address, {
-      from: accounts[0],
+      from: buyer,
       value: web3.toWei(1, 'Ether')
     });
 
-    const balance = await Token.balanceOf(Wallet.address);
+    const transfer = Token.transfer.request(buyer, "1e+21").params[0].data;
+
+    await Wallet.submitTransaction(Token.address, "0x0", transfer, {
+      from: owner1,
+      gas: 600000
+    });
+
+    await Wallet.confirmTransaction("0x0", {
+      from: owner2,
+      gas: 600000
+    });
+
+    let walletBalance = await web3.eth.getBalance(Wallet.address);
+    console.log("    Wallet: ", web3.fromWei(walletBalance, "ether").toString(), " ETH");
+
+    let balance = await Token.balanceOf(buyer);
+    console.log("    Buyer: ", balance.toString(), " ALT");
 
     assert.equal(balance.toString(), "1e+21");
-
-    // const data = Token.transfer.request(accounts[0], "1e+21").params[0].data;
-
-    // const transactionId = await Wallet.submitTransaction(Token.address, "0x0", data, { from: accounts[0] });
-
-    // console.log(transactionId);
 
   });
 });
